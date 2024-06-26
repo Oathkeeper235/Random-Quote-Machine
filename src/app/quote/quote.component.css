@@ -37,3 +37,8 @@ button:hover {
   transform: translate(-50%, -50%);
   font-size: medium;
 }
+
+.author-info {
+  font-size: 16px;
+  color: black;
+}

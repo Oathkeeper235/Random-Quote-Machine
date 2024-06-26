@@ -12,9 +12,9 @@ export class QuoteService {
 
   constructor(private http: HttpClient) { }
 
-  getRandomQuote(): Observable<string> {
-    return this.http.get<{ content: string }>(this.apiUrl).pipe(
-      map(response => response.content)
+  getRandomQuote(): Observable<{ content: string, author: string }> {
+    return this.http.get<{ content: string, author: string }>(this.apiUrl).pipe(
+      map(response => ({ content: response.content, author: response.author }))
     );
   }
 }

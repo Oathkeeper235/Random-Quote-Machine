@@ -1,6 +1,4 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { QuoteService } from '../quote.service';
 
 @Component({
@@ -8,10 +6,11 @@ import { QuoteService } from '../quote.service';
   templateUrl: './quote.component.html',
   styleUrls: ['./quote.component.css'],
   standalone: true,
-  imports: [CommonModule, HttpClientModule]
+  imports: []
 })
 export class QuoteComponent implements OnInit {
   currentQuote: string = '';
+  currentAuthor: string = '';
   backgroundUrl: string;
 
   constructor(private quoteService: QuoteService, private renderer: Renderer2) {
@@ -25,7 +24,8 @@ export class QuoteComponent implements OnInit {
 
   fetchNewQuote(): void {
     this.quoteService.getRandomQuote().subscribe(quote => {
-      this.currentQuote = quote;
+      this.currentQuote = quote.content;
+      this.currentAuthor = quote.author;
     });
   }
 
