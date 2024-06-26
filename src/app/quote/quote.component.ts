@@ -1,28 +1,36 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { QuoteService } from '../quote.service';
 
 @Component({
   selector: 'app-quote',
-  standalone: true,
-  imports: [],
   templateUrl: './quote.component.html',
-  styleUrl: './quote.component.css'
+  styleUrls: ['./quote.component.css'],
+  standalone: true,
+  imports: [CommonModule, HttpClientModule]
 })
 export class QuoteComponent implements OnInit {
-  currentQuote: string;
+  currentQuote: string = '';
   backgroundUrl: string;
 
-  constructor (private quoteService : QuoteService, private renderer: Renderer2) {
-    this.currentQuote = this.quoteService.getRandomQuote();
+  constructor(private quoteService: QuoteService, private renderer: Renderer2) {
     this.backgroundUrl = 'https://unsplash.it/1920/1080/?random';
   }
 
   ngOnInit(): void {
+    this.fetchNewQuote();
     this.setBackgroundImage();
   }
 
+  fetchNewQuote(): void {
+    this.quoteService.getRandomQuote().subscribe(quote => {
+      this.currentQuote = quote;
+    });
+  }
+
   generateNewQuote(): void {
-    this.currentQuote = this.quoteService.getRandomQuote();
+    this.fetchNewQuote();
     this.backgroundUrl = `https://unsplash.it/1920/1080/?random&t=${new Date().getTime()}`;
     this.setBackgroundImage();
   }
